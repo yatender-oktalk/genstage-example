@@ -10,14 +10,11 @@ defmodule GenstageExample.ProducerConsumer do
   end
 
   def handle_events(events, _from, state) do
-    IO.inspect "************"
-    IO.inspect events
-    IO.inspect "************"
     events_created_at =
       events |> Enum.map(fn x->
         x |> Map.put( :created_at, :erlang.system_time(1))
       end)
-      IO.inspect "^^^^^^^^^^^^^^"
-    {:noreply, events_created_at, state}
+
+      {:noreply, events_created_at, state}
   end
 end

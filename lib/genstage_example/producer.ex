@@ -11,29 +11,33 @@ defmodule GenstageExample.Producer do
   end
 
   def handle_demand(demand, state) when demand > 0 do
-    IO.inspect demand
-    IO.inspect state
     events = Enum.take(state, demand)
+    # IO.inspect "state"
+    # IO.inspect state
+    # IO.inspect("demand")
+    # IO.inspect(demand)
     {:noreply, events, state -- events}
   end
 
   # def handle_cast({:push, events}, state) do
-  #   IO.inspect events
+  #   IO.inspect events100
   #   IO.inspct "hello"
   #   updated_list = state ++ events
   #   {:noreply, state, updated_list}
   # end
 
   def handle_info(:polling, state) do
-    list = 1..1000 |> Enum.map(fn _x ->
+    list = 1..12000 |> Enum.map(fn _x ->
       num = Enum.take_random(1..1000, 2)
       %{
         a: num
       }
     end)
+
     new_state = state ++ list
+
     schedule_work()
-    {:noreply, new_state}
+    {:noreply, state, new_state}
   end
 
   @doc """
@@ -44,7 +48,7 @@ defmodule GenstageExample.Producer do
   end
 
   defp schedule_work() do
-    Process.send_after(self(), :polling, 2000) # In 2 hours
+    Process.send_after(self(), :polling, 2000)
   end
 
 

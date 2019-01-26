@@ -11,11 +11,11 @@ defmodule GenstageExample.Consumer do
 
   def handle_events(events, _from, state) do
     for event <- events do
-      IO.inspect({self(), event, state})
+      event
     end
-
     # As a consumer we never emit events
-    
+    IO.inspect("state")
+    IO.inspect(state)
     {:noreply, [], state}
   end
 end
